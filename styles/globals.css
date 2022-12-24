@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base{
+  body{
+    @apply text-white !scrollbar-thin !scrollbar-track-transparent !scrollbar-thumb-indigo-600;
+    background: #141E30;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  }
+  header{
+    @apply fixed top-0 z-50 flex w-full items-center justify-end px-4 py-4 transition-all lg:px-10 lg:py-6;
+  }
+  
+}
+@layer components{
+	.headerLink{
+		@apply cursor-pointer text-[#e5e5e5] transition-all duration-[.3s] hover:font-semibold;
+	}
+	.skills-section{
+		@apply flex w-screen p-5 overflow-x-scroll gap-x-24 mt-10  mb-12 md:w-auto sm:scrollbar-hide md:grid md:gap-y-10 md:grid-cols-2 md:gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 md:mx-12 md:mt-12 md:mb-12
+	}
+}	
+.title{
+	font-size: 2.25rem;
+	line-height: 2.5rem;
+	padding: 2rem;
+	font-weight: 400;
+	position: relative;
+	opacity: 1;
+	transform: scale(1);
+	transition: transform 0.5s ease, opacity 1s ease;
+}
+
+.is-loading h1 {
+	transform: scale(0.9);
+	opacity: 0;
+}
+
+.with-lines:before,
+.with-lines:after {
+	height: 2px;
+	width: 100%;
+	content: "";
+	background: white;
+	display: block;
+	position: absolute;
+	transition: width 0.4s ease;
+	transition-delay: 0.8s;
+}
+
+.with-lines:before {
+	top: 0;
+	left: 0;
+}
+
+.with-lines:after {
+	bottom: 0;
+	right: 0;
+}
+
+.is-loading h1:before,
+.is-loading h1:after {
+	width: 0;
+}
