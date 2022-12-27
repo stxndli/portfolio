@@ -5,6 +5,7 @@ import { XIcon } from "../utils/icons"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Carousel } from 'react-responsive-carousel'
 import { useState, useEffect } from "react"
+import Image from "next/image"
 function Modal(){
     const [showModal, setShowModal] = useRecoilState(modalState)
     const [modalContent, setModalContent] = useRecoilState(modalContentState)
@@ -24,9 +25,9 @@ function Modal(){
                     <XIcon/>
                 </button>
                 <Carousel centerMode={matches} centerSlidePercentage={90} showThumbs={false} emulateTouch={true}>
-                    {modalContent.map((image)=>(
-                        <div>
-                            <img src={image}></img>
+                    {modalContent.map((image,i)=>(
+                        <div key={i}>
+                            <img src={image} alt=""/>
                         </div>
                     ))}
                 </Carousel>

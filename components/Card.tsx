@@ -8,16 +8,17 @@ interface Props{
     title:string,
     desc:string,
     tags:string[],
-    images:string[]
+    images:string[],
+    github:string
 }
-export default function Card({title,desc,tags,images}:Props){
+export default function Card({title,desc,tags,images,github}:Props){
     const [modal, setModal] = useRecoilState(modalState)
     const [modalContent, setModalContent] = useRecoilState(modalContentState)
     return (
         <div className="max-w-sm rounded overflow-hidden shadow-lg">
         <Carousel showThumbs={false} onClickItem={()=>{setModal(true);setModalContent(images)}} className="cursor-pointer">
-                    {images.map((image)=>(
-                        <div>
+                    {images.map((image,i)=>(
+                        <div key={i}>
                             <Image src={image} height={674} width={1295} alt=""></Image>
                         </div>
                     ))}
@@ -36,7 +37,7 @@ export default function Card({title,desc,tags,images}:Props){
             })}
         </div>
         <div className="px-6 pt-2 pb-2 flex justify-center">
-            <Link href="https://github.com/stxndli/next-ecom">
+            <Link href={`https://github.com/stxndli/${github}`}>
                 <Image
                     src="/icons/github.png"
                     alt="Github"

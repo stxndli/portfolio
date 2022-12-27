@@ -12,13 +12,13 @@ import {contactModalState} from "../utils/atoms"
 import { chessle_paths, ecom_paths, portfolio_paths, graphtool_paths, travelapp_paths, deliveryapp_paths } from '../utils/constants'
 import { useRecoilState } from 'recoil'
 import ContactModal from '../components/ContactModal'
+import Spinner from '../utils/spinner'
 type Inputs = {
   name: string,
   email: string,
   message: string
 }
 export default function Home() {
-  const images = ['https://images.unsplash.com/photo-1506501139174-099022df5260?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1351&q=80', 'https://images.unsplash.com/photo-1523438097201-512ae7d59c44?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80', 'https://images.unsplash.com/photo-1513026705753-bc3fffca8bf4?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80']
   const firstRef = useRef<HTMLDivElement>(null)
   const skillsRef = useRef<HTMLDivElement>(null)
   const projectsRef = useRef<HTMLDivElement>(null)
@@ -31,6 +31,9 @@ export default function Home() {
   const [currentSection, setCurrentSection] = useState<HTMLDivElement | null>(firstRef.current)
   const [textCopied, setTextCopied] = useState(false)
   const [showContactSuccess, setShowContactSuccess] = useRecoilState(contactModalState)
+  const [contactSuccess, setContactSuccess] = useState(false)
+  const [contactModalMessage, setContactModalMessage] = useState("")
+  const [contactLoading, setContactLoading] = useState(false)
   useEffect(() => {
     setTimeout(function () {
       if (firstRef.current) { firstRef.current.classList.remove("is-loading") }
@@ -52,10 +55,19 @@ export default function Home() {
         })
         if (topButtonRef.current) topButtonRef.current.style.display = "block"
       } else {
+        setIsScrolled(false)
         if (topButtonRef.current) topButtonRef.current.style.display = "none";
       }
     }
   }, [])
+  useEffect(()=>{
+    if(contactSuccess){
+      setContactModalMessage("Thank you for reaching out, I'll get back to you as soon as possible")
+    }
+    else{
+      setContactModalMessage("Something went wrong while sending your message, Please try again later or contact me at js_silem@esi.dz")
+    }
+  },[contactSuccess])
   const handleHeaderClick = (ref: HTMLDivElement | null) => {
     if (ref) {
       const x = ref.getBoundingClientRect().top + window.pageYOffset 
@@ -77,7 +89,28 @@ export default function Home() {
   }
   const { register, handleSubmit, formState: { errors } } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async ({ name, email, message }, event) => {
-    setShowContactSuccess(true)
+    setContactLoading(true)
+    fetch('/api/mailer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({name:name,contact:email,content:message}),
+    }).then((resp:Response)=>{
+      setContactLoading(false)
+      if(resp.status===200){
+        setContactSuccess(true)
+        setShowContactSuccess(true)
+      }
+      else{
+        setContactSuccess(false)
+        setShowContactSuccess(true)
+      }
+    }).catch((err)=>{
+      setContactLoading(false)
+      setContactSuccess(false)
+      setShowContactSuccess(true)
+    })
    }
   return (
     <div>
@@ -99,10 +132,10 @@ export default function Home() {
       <main className="grid justify-center pt-12 text-center">
         <div className="flex flex-col space-y-16 pt-16 sm:pt-24 mx-5 md:mx-32 items-center h-screen">
           <div className="is-loading" ref={firstRef}>
-            <h1 className="with-lines title">Hi, I'm Silem Sifeddine</h1>
+            <h1 className="with-lines title">Hi, I&apos;m Silem Sifeddine</h1>
           </div>
-          <p className="text-xl md:mx-24">I'm a computer science student and a web/mobile developer, want to know more about what I do ? check out my skills and projects down below</p>
-          <button onClick={() => handleHeaderClick(skillsRef.current)} className="rounded-full h-12 w-12 bg-white justify-self-center p-2 hover:scale-105 text-[#141E30]"><ArrowDown /></button>
+          <p className="text-xl md:mx-24">I&apos;m a computer science student and a web/mobile developer, I&apos;m passionate about programming and always ready for new projects and opportunities, want to know more about what I do ? check out my skills and projects down below</p>
+          <button onClick={() => handleHeaderClick(skillsRef.current)} className="rounded-full bg-white justify-self-center py-4 px-6 transition-all duration-150 hover:scale-105 text-[#141E30] text-xl">Get Started</button>
         </div>
         <div className="mx-5 md:min-h-screen">
           <div className="is-loading" ref={skillsRef}>
@@ -111,13 +144,14 @@ export default function Home() {
 
           <div className="skills-section" onScroll={() => setRowScrolled(true)}>
             <Image src="/icons/swipe.png" height={62} width={62} alt="" className={`sm:hidden absolute right-[45%] mt-[148px] ${rowScrolled && "hidden"}`} />
+            <Skill icon='/icons/htmlcss.png' title='HTML & CSS' />
             <Skill icon='/icons/react.png' title='React JS' />
             <Skill icon='/icons/node.png' title='Node JS' />
             <Skill icon='/icons/flutter.png' title='Flutter' />
             <Skill icon='/icons/firebase.png' title='Firebase' />
             <Skill icon='/icons/mongodb.png' title='Mongo DB' />
             <Skill icon='/icons/mysql.png' title='MySQL and relational DBs' />
-            <Skill icon='/icons/git.png' title='Git & Github' />
+            <Skill icon='/icons/git.png' title='Git' />
           </div>
         </div>
         <div className="space-y-12 justify-center mx-5 min-h-screen" id="projects">
@@ -125,17 +159,17 @@ export default function Home() {
             <h1 className="title">My Projects</h1>
           </div>
           <div className="grid grid-cols-1 p-3 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            <Card title="This Portfolio" desc="A portfolio made in Nextjs and Tailwindcss that showcases my projects." tags={["Nextjs", "tailwindcss", "Responsive", "Front end"]} images={portfolio_paths} />
+            <Card title="This Portfolio" desc="A portfolio made in Nextjs and Tailwindcss that showcases my projects." tags={["Nextjs", "tailwindcss", "Responsive", "Front end"]} images={portfolio_paths} github="portfolio"/>
 
-            <Card title="Food Delivery App" desc="A client side mobile application for a food delivery service made using Flutter, Firebase, Stripe and Sqflite" tags={["Mobile App", "Flutter", "Firebase", "Fullstack"]} images={deliveryapp_paths} />
+            <Card title="Food Delivery App" desc="A client side mobile application for a food delivery service made using Flutter, Firebase, Stripe and Sqflite" tags={["Mobile App", "Flutter", "Firebase", "Fullstack"]} images={deliveryapp_paths} github="flutter-deliveryapp"/>
 
-            <Card title="E-commerce website" desc="An e-commerce/store website made in Next.js, Tailwind, Firebase and Stripe" tags={["Next.js", "Responsive","Firebase", "Stripe"]} images={ecom_paths} />
+            <Card title="E-commerce website" desc="An e-commerce/store website made in Next.js, Tailwind, Firebase and Stripe" tags={["Next.js", "Responsive","Firebase", "Stripe"]} images={ecom_paths} github="ecom"/>
 
-            <Card title="Travel App" desc="A prototype of a mobile app made in Flutter as part of a university project to guide tourists visiting Algeria" tags={["Mobile App", "Flutter"]} images={travelapp_paths} />
+            <Card title="Travel App" desc="A prototype of a mobile app made in Flutter as part of a university project to guide tourists visiting Algeria" tags={["Mobile App", "Flutter"]} images={travelapp_paths} github="flutter-travelapp"/>
 
-            <Card title="Graph Tool" desc="A web app made in React to create graphs and visualize common graph algorithms" tags={["React", "Algorithms & Data Structures"]} images={graphtool_paths} />
+            <Card title="Graph Tool" desc="A web app made in React to create graphs and visualize common graph algorithms" tags={["React", "Algorithms & Data Structures"]} images={graphtool_paths} github="graph-tool"/>
 
-            <Card title="Chessle" desc="It's like wordle but it's chess openings" tags={["React", "Front End"]} images={chessle_paths} />
+            <Card title="Chessle" desc="A simple game for guessing chess openings" tags={["React", "Front End"]} images={chessle_paths} github="chessle"/>
 
           </div>
         </div>
@@ -146,15 +180,15 @@ export default function Home() {
           </div>
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col p-5 md:p-0">
             <div className="flex flex-col items-start"><label>{errors.name && <p className="p-1 text-[13px] font-light text-red-600">This field is required</p>}</label><input type="text" autoComplete='none' className="rounded-md w-full lg:w-[400px] focus:outline-none text-black p-2 mb-10" placeholder="Full Name" {...register('name', { required: true })} /></div>
-            <div className="flex flex-col items-start"><label>{errors.email && <p className="p-1 text-[13px] font-light text-red-600">This field is required</p>}</label><input type="email" autoComplete='none' className="rounded-md w-full lg:w-[400px] focus:outline-none text-black p-2 mb-10" placeholder="Email or Contact Info" {...register('email', { required: true })} /></div>
+            <div className="flex flex-col items-start"><label>{errors.email && <p className="p-1 text-[13px] font-light text-red-600">This field is required</p>}</label><input type="text" autoComplete='none' className="rounded-md w-full lg:w-[400px] focus:outline-none text-black p-2 mb-10" placeholder="Email or Contact Info" {...register('email', { required: true })} /></div>
             <div className="flex flex-col items-start"><label>{errors.message && <p className="p-1 text-[13px] font-light text-red-600">This field is required</p>}</label><textarea style={{ resize: "none" }} className="rounded-md w-full lg:w-[400px] h-[400px] focus:outline-none text-black p-2 mb-10" placeholder="Message" {...register('message', { required: true })} /></div>
-            <button className={`p-2 bg-transparent border border-indigo-500 hover:bg-indigo-500 rounded-md w-[70%] text-lg self-center`}>Send</button>
+            <button className={`p-2 bg-transparent border border-indigo-500 hover:bg-indigo-500 rounded-md w-[70%] text-lg self-center ${contactLoading && "pl-[30%]"}`}>{contactLoading ? <Spinner/> : "Send"}</button>
           </form>
         </div>
         <button className="group shadow w-12 h-12 md:w-14 md:h-14 border border-indigo-500 rounded-full bg-transparent md:hover:bg-indigo-500 hover:scale-110 transition-all duration-100 hidden fixed bottom-[10px] right-[15px] md:bottom-[20px] md:right-[30px] z-10 p-[8px] md:p-[15px]" onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }) }} ref={topButtonRef} title="Go to top"><ArrowUp /></button>
       </main>
       <Modal />
-      <ContactModal/>
+      <ContactModal success={contactSuccess} message={contactModalMessage}/>
 
       <footer className="flex space-x-12 mt-10 space-y-1 items-center justify-center w-full h-24 bg-[#242424]/40">
         {!showEmail ?
