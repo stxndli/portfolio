@@ -165,11 +165,11 @@ export default function Home() {
             <Card title="This Portfolio" desc="A portfolio made in Nextjs and Tailwindcss that showcases my projects." tags={["Nextjs", "tailwindcss", "Responsive", "Front end"]} images={portfolio_paths} github="portfolio" />
 
 
-            <Card title="Food Delivery App" desc="A client side mobile application for a food delivery service made using Flutter, Firebase, Stripe and Sqflite" tags={["Mobile App", "Flutter", "Firebase", "Fullstack"]} images={deliveryapp_paths} github="flutter-deliveryapp" />
+            <Card title="Food Delivery App" desc="A client side mobile application for a food delivery service made using Flutter, Firebase, Stripe and Sqflite" tags={["Mobile App", "Flutter", "Firebase", "Fullstack"]} images={deliveryapp_paths} />
 
             <Card title="E-commerce website" desc="An e-commerce/store website made in Next.js, Tailwind, Firebase and Stripe" tags={["Next.js", "Responsive", "Firebase", "Stripe"]} images={ecom_paths} github="ecom" />
 
-            <Card title="Travel App" desc="A prototype of a mobile app made in Flutter as part of a university project to guide tourists visiting Algeria" tags={["Mobile App", "Flutter"]} images={travelapp_paths} github="flutter-travelapp" />
+            <Card title="Travel App" desc="A prototype of a mobile app made in Flutter as part of a university project to guide tourists visiting Algeria" tags={["Mobile App", "Flutter"]} images={travelapp_paths} />
 
             <Card title="Graph Tool" desc="A web app made in React to create graphs and visualize common graph algorithms" tags={["React", "Algorithms & Data Structures"]} images={graphtool_paths} github="graph-tool" />
 
