@@ -8,11 +8,12 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import Link from 'next/link'
 import Skill from '../components/Skill'
 import { Tooltip } from '@mui/material'
-import {contactModalState} from "../utils/atoms"
+import { contactModalState } from "../utils/atoms"
 import { chessle_paths, ecom_paths, portfolio_paths, graphtool_paths, travelapp_paths, deliveryapp_paths } from '../utils/constants'
 import { useRecoilState } from 'recoil'
 import ContactModal from '../components/ContactModal'
 import Spinner from '../utils/spinner'
+import Stars from '../components/Stars'
 type Inputs = {
   name: string,
   email: string,
@@ -35,7 +36,7 @@ export default function Home() {
   const [contactModalMessage, setContactModalMessage] = useState("")
   const [contactLoading, setContactLoading] = useState(false)
   useEffect(() => {
-    setTimeout(function () {
+    setTimeout(function() {
       if (firstRef.current) { firstRef.current.classList.remove("is-loading") }
     }, 100)
     window.onscroll = () => {
@@ -46,6 +47,7 @@ export default function Home() {
         refArrs.every((ref) => {
           if (ref && (window.scrollY >= ref.getBoundingClientRect().top + window.pageYOffset - ref.getBoundingClientRect().height)) {
             setCurrentSection(ref)
+            ref.classList.remove("is-loading")
             return false
           }
           else if (ref && (window.scrollY > ref.offsetTop - window.innerHeight + ref.getBoundingClientRect().height * 2)) {
@@ -60,17 +62,17 @@ export default function Home() {
       }
     }
   }, [])
-  useEffect(()=>{
-    if(contactSuccess){
+  useEffect(() => {
+    if (contactSuccess) {
       setContactModalMessage("Thank you for reaching out, I'll get back to you as soon as possible")
     }
-    else{
+    else {
       setContactModalMessage("Something went wrong while sending your message, Please try again later or contact me at js_silem@esi.dz")
     }
-  },[contactSuccess])
+  }, [contactSuccess])
   const handleHeaderClick = (ref: HTMLDivElement | null) => {
     if (ref) {
-      const x = ref.getBoundingClientRect().top + window.pageYOffset 
+      const x = ref.getBoundingClientRect().top + window.pageYOffset
       window.scrollTo({ top: x, behavior: 'smooth' });
     }
   }
@@ -95,23 +97,23 @@ export default function Home() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({name:name,contact:email,content:message}),
-    }).then((resp:Response)=>{
+      body: JSON.stringify({ name: name, contact: email, content: message }),
+    }).then((resp: Response) => {
       setContactLoading(false)
-      if(resp.status===200){
+      if (resp.status === 200) {
         setContactSuccess(true)
         setShowContactSuccess(true)
       }
-      else{
+      else {
         setContactSuccess(false)
         setShowContactSuccess(true)
       }
-    }).catch((err)=>{
+    }).catch((err) => {
       setContactLoading(false)
       setContactSuccess(false)
       setShowContactSuccess(true)
     })
-   }
+  }
   return (
     <div>
       <Head>
@@ -122,20 +124,21 @@ export default function Home() {
       <header className={`${isScrolled && "bg-[#242424]/70"} hidden sm:block`}>
         <div className="flex justify-end mr-12">
           <ul className="space-x-12 md:flex">
-            <li className={`headerLink ${currentSection && currentSection === firstRef.current && "font-semibold"}`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Home</li>
-            <li className={`headerLink ${currentSection && currentSection === skillsRef.current && "font-semibold"}`} onClick={() => handleHeaderClick(skillsRef.current)}>Skills</li>
-            <li className={`headerLink ${currentSection && currentSection === projectsRef.current && "font-semibold"}`} onClick={() => handleHeaderClick(projectsRef.current)}>Projects</li>
-            <li className={`headerLink ${currentSection && currentSection === contactRef.current && "font-semibold"}`} onClick={() => handleHeaderClick(contactRef.current)}>Contact</li>
+            <li className={`headerLink ${currentSection && currentSection === firstRef.current && "headerLinkSelected"}`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Home</li>
+            <li className={`headerLink ${currentSection && currentSection === skillsRef.current && "headerLinkSelected"}`} onClick={() => handleHeaderClick(skillsRef.current)}>Skills</li>
+            <li className={`headerLink ${currentSection && currentSection === projectsRef.current && "headerLinkSelected"}`} onClick={() => handleHeaderClick(projectsRef.current)}>Projects</li>
+            <li className={`headerLink ${currentSection && currentSection === contactRef.current && "headerLinkSelected"}`} onClick={() => handleHeaderClick(contactRef.current)}>Contact</li>
           </ul>
         </div>
       </header>
       <main className="grid justify-center pt-12 text-center">
         <div className="flex flex-col space-y-16 pt-16 sm:pt-24 mx-5 md:mx-32 items-center h-screen">
+          <Stars />
           <div className="is-loading" ref={firstRef}>
             <h1 className="with-lines title">Hi, I&apos;m Silem Sifeddine</h1>
           </div>
-          <p className="text-xl md:mx-24">I&apos;m a computer science student and a web/mobile developer, I&apos;m passionate about programming and always ready for new projects and opportunities, want to know more about what I do ? check out my skills and projects down below</p>
-          <button onClick={() => handleHeaderClick(skillsRef.current)} className="rounded-full bg-white justify-self-center py-4 px-6 transition-all duration-150 hover:scale-105 text-[#141E30] text-xl">Get Started</button>
+          <p className="text-xl md:mx-24">I&apos;m a computer science student and a web/mobile developer, I have a strong passion for programming and software development. Browse through my skills and projects below to know more about what I do.</p>
+          <button onClick={() => handleHeaderClick(skillsRef.current)} className="rounded-full bg-white justify-self-center py-4 px-6 transition-all duration-150 hover:scale-105 text-[#141E30] text-xl">See More</button>
         </div>
         <div className="mx-5 md:min-h-screen">
           <div className="is-loading" ref={skillsRef}>
@@ -150,8 +153,8 @@ export default function Home() {
             <Skill icon='/icons/flutter.png' title='Flutter' />
             <Skill icon='/icons/firebase.png' title='Firebase' />
             <Skill icon='/icons/mongodb.png' title='Mongo DB' />
-            <Skill icon='/icons/mysql.png' title='MySQL and relational DBs' />
-            <Skill icon='/icons/git.png' title='Git' />
+            <Skill icon='/icons/relational.png' title='Relational Databases' />
+            <Skill icon='/icons/git.png' title='Version Control' />
           </div>
         </div>
         <div className="space-y-12 justify-center mx-5 min-h-screen" id="projects">
@@ -159,17 +162,18 @@ export default function Home() {
             <h1 className="title">My Projects</h1>
           </div>
           <div className="grid grid-cols-1 p-3 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            <Card title="This Portfolio" desc="A portfolio made in Nextjs and Tailwindcss that showcases my projects." tags={["Nextjs", "tailwindcss", "Responsive", "Front end"]} images={portfolio_paths} github="portfolio"/>
+            <Card title="This Portfolio" desc="A portfolio made in Nextjs and Tailwindcss that showcases my projects." tags={["Nextjs", "tailwindcss", "Responsive", "Front end"]} images={portfolio_paths} github="portfolio" />
 
-            <Card title="Food Delivery App" desc="A client side mobile application for a food delivery service made using Flutter, Firebase, Stripe and Sqflite" tags={["Mobile App", "Flutter", "Firebase", "Fullstack"]} images={deliveryapp_paths} github="flutter-deliveryapp"/>
 
-            <Card title="E-commerce website" desc="An e-commerce/store website made in Next.js, Tailwind, Firebase and Stripe" tags={["Next.js", "Responsive","Firebase", "Stripe"]} images={ecom_paths} github="ecom"/>
+            <Card title="Food Delivery App" desc="A client side mobile application for a food delivery service made using Flutter, Firebase, Stripe and Sqflite" tags={["Mobile App", "Flutter", "Firebase", "Fullstack"]} images={deliveryapp_paths} github="flutter-deliveryapp" />
 
-            <Card title="Travel App" desc="A prototype of a mobile app made in Flutter as part of a university project to guide tourists visiting Algeria" tags={["Mobile App", "Flutter"]} images={travelapp_paths} github="flutter-travelapp"/>
+            <Card title="E-commerce website" desc="An e-commerce/store website made in Next.js, Tailwind, Firebase and Stripe" tags={["Next.js", "Responsive", "Firebase", "Stripe"]} images={ecom_paths} github="ecom" />
 
-            <Card title="Graph Tool" desc="A web app made in React to create graphs and visualize common graph algorithms" tags={["React", "Algorithms & Data Structures"]} images={graphtool_paths} github="graph-tool"/>
+            <Card title="Travel App" desc="A prototype of a mobile app made in Flutter as part of a university project to guide tourists visiting Algeria" tags={["Mobile App", "Flutter"]} images={travelapp_paths} github="flutter-travelapp" />
 
-            <Card title="Chessle" desc="A simple game for guessing chess openings" tags={["React", "Front End"]} images={chessle_paths} github="chessle"/>
+            <Card title="Graph Tool" desc="A web app made in React to create graphs and visualize common graph algorithms" tags={["React", "Algorithms & Data Structures"]} images={graphtool_paths} github="graph-tool" />
+
+            <Card title="Chessle" desc="A simple game for guessing chess openings" tags={["React", "Front End"]} images={chessle_paths} github="chessle" />
 
           </div>
         </div>
@@ -182,13 +186,13 @@ export default function Home() {
             <div className="flex flex-col items-start"><label>{errors.name && <p className="p-1 text-[13px] font-light text-red-600">This field is required</p>}</label><input type="text" autoComplete='none' className="rounded-md w-full lg:w-[400px] focus:outline-none text-black p-2 mb-10" placeholder="Full Name" {...register('name', { required: true })} /></div>
             <div className="flex flex-col items-start"><label>{errors.email && <p className="p-1 text-[13px] font-light text-red-600">This field is required</p>}</label><input type="text" autoComplete='none' className="rounded-md w-full lg:w-[400px] focus:outline-none text-black p-2 mb-10" placeholder="Email or Contact Info" {...register('email', { required: true })} /></div>
             <div className="flex flex-col items-start"><label>{errors.message && <p className="p-1 text-[13px] font-light text-red-600">This field is required</p>}</label><textarea style={{ resize: "none" }} className="rounded-md w-full lg:w-[400px] h-[400px] focus:outline-none text-black p-2 mb-10" placeholder="Message" {...register('message', { required: true })} /></div>
-            <button className={`p-2 bg-transparent border border-indigo-500 hover:bg-indigo-500 rounded-md w-[70%] text-lg self-center ${contactLoading && "pl-[30%]"}`}>{contactLoading ? <Spinner/> : "Send"}</button>
+            <button className={`p-2 bg-transparent border border-indigo-500 hover:bg-indigo-500 rounded-md w-[70%] text-lg self-center ${contactLoading && "pl-[30%]"}`}>{contactLoading ? <Spinner /> : "Send"}</button>
           </form>
         </div>
         <button className="group shadow w-12 h-12 md:w-14 md:h-14 border border-indigo-500 rounded-full bg-transparent md:hover:bg-indigo-500 hover:scale-110 transition-all duration-100 hidden fixed bottom-[10px] right-[15px] md:bottom-[20px] md:right-[30px] z-10 p-[8px] md:p-[15px]" onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }) }} ref={topButtonRef} title="Go to top"><ArrowUp /></button>
       </main>
       <Modal />
-      <ContactModal success={contactSuccess} message={contactModalMessage}/>
+      <ContactModal success={contactSuccess} message={contactModalMessage} />
 
       <footer className="flex space-x-12 mt-10 space-y-1 items-center justify-center w-full h-24 bg-[#242424]/40">
         {!showEmail ?

@@ -9,8 +9,8 @@ export default function Skill({icon,title}:Props){
               <Image
                   src={icon}
                   alt={title}
-                  height={128}
-                  width={128}
+                  height={96}
+                  width={96}
               />
               <h1 className="text-xl">{title}</h1>
         </div>
