@@ -9,7 +9,7 @@ import Link from 'next/link'
 import Skill from '../components/Skill'
 import { Tooltip } from '@mui/material'
 import { contactModalState } from "../utils/atoms"
-import { chessle_paths, ecom_paths, portfolio_paths, graphtool_paths, travelapp_paths, deliveryapp_paths } from '../utils/constants'
+import { quick_translate_paths, chessle_paths, ecom_paths, portfolio_paths, graphtool_paths, travelapp_paths, deliveryapp_paths } from '../utils/constants'
 import { useRecoilState } from 'recoil'
 import ContactModal from '../components/ContactModal'
 import Spinner from '../utils/spinner'
@@ -162,8 +162,10 @@ export default function Home() {
             <h1 className="title">My Projects</h1>
           </div>
           <div className="grid grid-cols-1 p-3 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            <Card title="This Portfolio" desc="A portfolio made in Nextjs and Tailwindcss that showcases my projects." tags={["Nextjs", "tailwindcss", "Responsive", "Front end"]} images={portfolio_paths} github="portfolio" />
 
+            <Card title="Quick Translate" desc="Quick Translate is a Chrome & Firefox extension that translates selected text on web pages using MyMemory translation API" tags={["Browser extension", "Javascript"]} images={quick_translate_paths} github="quick_translate" />
+
+            <Card title="This Portfolio" desc="A portfolio made in Nextjs and Tailwindcss that showcases my projects." tags={["Nextjs", "tailwindcss", "Responsive", "Front end"]} images={portfolio_paths} github="portfolio" />
 
             <Card title="Food Delivery App" desc="A client side mobile application for a food delivery service made using Flutter, Firebase, Stripe and Sqflite" tags={["Mobile App", "Flutter", "Firebase", "Fullstack"]} images={deliveryapp_paths} />
 
