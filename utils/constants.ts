@@ -5,3 +5,4 @@ export const graphtool_paths = ["/projects/graphtool/1.png", "/projects/graphtoo
 export const deliveryapp_paths = ["/projects/deliveryapp/1.png"]
 export const travelapp_paths = ["/projects/travelapp/4.jpg"]
 export const quick_translate_paths = ["/projects/quick_translate/1.png"]
+export const hrm_paths = ["/projects/hrm/1.png","/projects/hrm/2.png","/projects/hrm/3.png","/projects/hrm/4.png","/projects/hrm/5.png"]

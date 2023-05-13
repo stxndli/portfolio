@@ -9,7 +9,7 @@ import Link from 'next/link'
 import Skill from '../components/Skill'
 import { Tooltip } from '@mui/material'
 import { contactModalState } from "../utils/atoms"
-import { quick_translate_paths, chessle_paths, ecom_paths, portfolio_paths, graphtool_paths, travelapp_paths, deliveryapp_paths } from '../utils/constants'
+import { quick_translate_paths, chessle_paths, ecom_paths, portfolio_paths, graphtool_paths, travelapp_paths, deliveryapp_paths, hrm_paths } from '../utils/constants'
 import { useRecoilState } from 'recoil'
 import ContactModal from '../components/ContactModal'
 import Spinner from '../utils/spinner'
@@ -162,6 +162,7 @@ export default function Home() {
             <h1 className="title">My Projects</h1>
           </div>
           <div className="grid grid-cols-1 p-3 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            <Card title="HRM System" desc="Worked within a team to create and deliver a web application that allows users to manage and keep track of their working hours, projects, days off, weekly planning and various other features." tags={["Python Flask", "Javascript", "Bootstrap", "Relational Database"]} images={hrm_paths}/>
 
             <Card title="Quick Translate" desc="Quick Translate is a Chrome & Firefox extension that translates selected text on web pages using MyMemory translation API" tags={["Browser extension", "Javascript"]} images={quick_translate_paths} github="quick_translate" />
 
