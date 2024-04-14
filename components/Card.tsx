@@ -25,7 +25,7 @@ export default function Card({
   const [modalContent, setModalContent] = useRecoilState(modalContentState);
   return (
     <BackgroundGradient>
-      <div className="max-w-sm rounded-3xl overflow-hidden shadow-lg bg-[#141E30]/90 min-h-[500px]">
+      <div className="max-w-sm rounded-3xl overflow-hidden shadow-lg bg-[#141E30]/90 min-h-[400px]">
         <Carousel
           showThumbs={false}
           onClickItem={() => {

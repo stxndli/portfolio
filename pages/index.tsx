@@ -7,7 +7,7 @@ import { useEffect, useRef, useState, Fragment } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import Skill from "../components/Skill";
-import { Fade, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import { contactModalState } from "../utils/atoms";
 import {
   quick_translate_paths,
@@ -29,6 +29,8 @@ import { BackgroundGradient } from "../components/ui/background-gradient";
 import { WavyBackground } from "../components/ui/wavy-background";
 import { StickyScroll } from "../components/ui/sticky-scroll-reveal";
 import { projects } from "../utils/projects-scroll";
+import { Fade, Slide } from "react-awesome-reveal";
+
 type Inputs = {
   name: string;
   email: string;
@@ -252,15 +254,20 @@ export default function Home() {
                 rowScrolled && "hidden"
               }`}
             />
-            <Skill icon="/icons/htmlcss.png" title="HTML & CSS" />
-            <Skill icon="/icons/vue.png" title="Vue JS" />
-            <Skill icon="/icons/react.png" title="React JS" />
-            <Skill icon="/icons/node.png" title="Node JS" />
-            <Skill icon="/icons/flutter.png" title="Flutter" />
-            <Skill icon="/icons/firebase.png" title="Firebase" />
-            <Skill icon="/icons/mongodb.png" title="Mongo DB" />
-            <Skill icon="/icons/relational.png" title="Relational Databases" />
-            <Skill icon="/icons/git.png" title="Version Control" />
+            <Fade>
+              <Skill icon="/icons/htmlcss.png" title="HTML & CSS" />
+              <Skill icon="/icons/vue.png" title="Vue JS" />
+              <Skill icon="/icons/react.png" title="React JS" />
+              <Skill icon="/icons/node.png" title="Node JS" />
+              <Skill icon="/icons/flutter.png" title="Flutter" />
+              <Skill icon="/icons/firebase.png" title="Firebase" />
+              <Skill
+                icon="/icons/relational.png"
+                title="Relational Databases"
+              />
+              <Skill icon="/icons/gql.png" title="GraphQL" />
+              <Skill icon="/icons/git.png" title="Version Control" />
+            </Fade>
           </div>
         </div>
         <div
@@ -270,89 +277,92 @@ export default function Home() {
           <div className="is-loading" ref={projectsRef}>
             <h1 className="title">My Projects</h1>
           </div>
+
           <div className="grid grid-cols-1 p-3 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            <Card
-              title="Point of Sale"
-              desc="Contributed at Smeetz to the development and maintenance of a complex
+            <Fade>
+              <Card
+                title="Point of Sale"
+                desc="Contributed at Smeetz to the development and maintenance of a complex
               frontend for a POS application for ticketed venues and retail businesses, ensuring smooth
               user and selling experience."
-              tags={[
-                "Typescript",
-                "VueJS",
-                "GraphQL",
-                "REST APIs",
-                "Payment processing",
-                "Offline-first",
-              ]}
-              images={pos_paths}
-              smeetz={"en/features/pos"}
-            />
-            <Card
-              title="Kiosk Application"
-              desc="Contributed at Smeetz to the development of a self-service kiosk application which helped customers quickly and easily purchase tickets without any need for employee interaction."
-              tags={["Typescript", "VueJS", "REST APIs"]}
-              images={kiosk_paths}
-              smeetz={"/"}
-            />
-            <Card
-              title="HRM System"
-              desc="Worked within a team to create and deliver a web application that allows users to manage and keep track of their working hours, projects, days off, weekly planning and various other features."
-              tags={[
-                "Python Flask",
-                "Javascript",
-                "Bootstrap",
-                "Relational Database",
-              ]}
-              images={hrm_paths}
-            />
+                tags={[
+                  "Typescript",
+                  "VueJS",
+                  "GraphQL",
+                  "REST APIs",
+                  "Payment processing",
+                  "Offline-first",
+                ]}
+                images={pos_paths}
+                smeetz={"en/features/pos"}
+              />
+              <Card
+                title="Kiosk Application"
+                desc="Contributed at Smeetz to the development of a self-service kiosk application which helped customers quickly and easily purchase tickets without any need for employee interaction."
+                tags={["Typescript", "VueJS", "REST APIs"]}
+                images={kiosk_paths}
+                smeetz={"/"}
+              />
+              <Card
+                title="HRM System"
+                desc="Worked within a team to create and deliver a web application that allows users to manage and keep track of their working hours, projects, days off, weekly planning and various other features."
+                tags={[
+                  "Python Flask",
+                  "Javascript",
+                  "Bootstrap",
+                  "Relational Database",
+                ]}
+                images={hrm_paths}
+              />
 
-            <Card
-              title="Quick Translate"
-              desc="Quick Translate is a Chrome & Firefox extension that translates selected text on web pages using MyMemory translation API"
-              tags={["Browser extension", "Javascript"]}
-              images={quick_translate_paths}
-              github="quick_translate"
-            />
-            <Card
-              title="This Portfolio"
-              desc="A portfolio made in Nextjs and Tailwindcss that showcases my projects."
-              tags={["Nextjs", "tailwindcss", "Responsive", "Front end"]}
-              images={portfolio_paths}
-              github="portfolio"
-            />
-            <Card
-              title="Food Delivery App"
-              desc="A client side mobile application for a food delivery service made using Flutter, Firebase, Stripe and Sqflite"
-              tags={["Mobile App", "Flutter", "Firebase", "Fullstack"]}
-              images={deliveryapp_paths}
-            />
-            <Card
-              title="E-commerce website"
-              desc="An e-commerce/store website made in Next.js, Tailwind, Firebase and Stripe"
-              tags={["Next.js", "Responsive", "Firebase", "Stripe"]}
-              images={ecom_paths}
-              github="ecom"
-            />
-            <Card
-              title="Travel App"
-              desc="A prototype of a mobile app made in Flutter as part of a university project to guide tourists visiting Algeria"
-              tags={["Mobile App", "Flutter"]}
-              images={travelapp_paths}
-            />
-            <Card
-              title="Graph Tool"
-              desc="A web app made in React to create graphs and visualize common graph algorithms"
-              tags={["React", "Algorithms & Data Structures"]}
-              images={graphtool_paths}
-              github="graph-tool"
-            />
-            <Card
-              title="Chessle"
-              desc="A simple game for guessing chess openings"
-              tags={["React", "Front End"]}
-              images={chessle_paths}
-              github="chessle"
-            />
+              <Card
+                title="Quick Translate"
+                desc="Quick Translate is a Chrome & Firefox extension that translates selected text on web pages using MyMemory translation API"
+                tags={["Browser extension", "Javascript"]}
+                images={quick_translate_paths}
+                github="quick_translate"
+              />
+              <Card
+                title="This Portfolio"
+                desc="A portfolio made in Nextjs and Tailwindcss that showcases my projects."
+                tags={["Nextjs", "tailwindcss", "Responsive", "Front end"]}
+                images={portfolio_paths}
+                github="portfolio"
+              />
+              <Card
+                title="Food Delivery App"
+                desc="A client side mobile application for a food delivery service made using Flutter, Firebase, Stripe and Sqflite"
+                tags={["Mobile App", "Flutter", "Firebase", "Fullstack"]}
+                images={deliveryapp_paths}
+              />
+              <Card
+                title="E-commerce website"
+                desc="An e-commerce/store website made in Next.js, Tailwind, Firebase and Stripe"
+                tags={["Next.js", "Responsive", "Firebase", "Stripe"]}
+                images={ecom_paths}
+                github="ecom"
+              />
+              <Card
+                title="Travel App"
+                desc="A prototype of a mobile app made in Flutter as part of a university project to guide tourists visiting Algeria"
+                tags={["Mobile App", "Flutter"]}
+                images={travelapp_paths}
+              />
+              <Card
+                title="Graph Tool"
+                desc="A web app made in React to create graphs and visualize common graph algorithms"
+                tags={["React", "Algorithms & Data Structures"]}
+                images={graphtool_paths}
+                github="graph-tool"
+              />
+              <Card
+                title="Chessle"
+                desc="A simple game for guessing chess openings"
+                tags={["React", "Front End"]}
+                images={chessle_paths}
+                github="chessle"
+              />
+            </Fade>
           </div>
           {/* <div className="p-10">
             <StickyScroll content={projects} />
@@ -363,69 +373,73 @@ export default function Home() {
           id="contact"
         >
           <div className="is-loading" ref={contactRef}>
-            <h1 className="with-lines title mb-12 lg:mt-[20%] lg:ml-16">
-              Contact Me
-            </h1>
+            <Slide triggerOnce>
+              <h1 className="with-lines title mb-12 lg:mt-[20%] lg:ml-16">
+                Contact Me
+              </h1>
+            </Slide>
           </div>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col p-5 md:p-0"
-          >
-            <div className="flex flex-col items-start">
-              <label>
-                {errors.name && (
-                  <p className="p-1 text-[13px] font-light text-red-600">
-                    This field is required
-                  </p>
-                )}
-              </label>
-              <input
-                type="text"
-                autoComplete="none"
-                className="rounded-md w-full lg:w-[400px] focus:outline-none text-black p-2 mb-10"
-                placeholder="Full Name"
-                {...register("name", { required: true })}
-              />
-            </div>
-            <div className="flex flex-col items-start">
-              <label>
-                {errors.email && (
-                  <p className="p-1 text-[13px] font-light text-red-600">
-                    This field is required
-                  </p>
-                )}
-              </label>
-              <input
-                type="text"
-                autoComplete="none"
-                className="rounded-md w-full lg:w-[400px] focus:outline-none text-black p-2 mb-10"
-                placeholder="Email or Contact Info"
-                {...register("email", { required: true })}
-              />
-            </div>
-            <div className="flex flex-col items-start">
-              <label>
-                {errors.message && (
-                  <p className="p-1 text-[13px] font-light text-red-600">
-                    This field is required
-                  </p>
-                )}
-              </label>
-              <textarea
-                style={{ resize: "none" }}
-                className="rounded-md w-full lg:w-[400px] h-[400px] focus:outline-none text-black p-2 mb-10"
-                placeholder="Message"
-                {...register("message", { required: true })}
-              />
-            </div>
-            <button
-              className={`p-2 bg-transparent border border-indigo-500 hover:bg-indigo-500 rounded-md w-[70%] text-lg self-center ${
-                contactLoading && "pl-[30%]"
-              }`}
+          <Slide direction="right" triggerOnce>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col p-5 md:p-0"
             >
-              {contactLoading ? <Spinner /> : "Send"}
-            </button>
-          </form>
+              <div className="flex flex-col items-start">
+                <label>
+                  {errors.name && (
+                    <p className="p-1 text-[13px] font-light text-red-600">
+                      This field is required
+                    </p>
+                  )}
+                </label>
+                <input
+                  type="text"
+                  autoComplete="none"
+                  className="rounded-md w-full lg:w-[400px] focus:outline-none text-black p-2 mb-10"
+                  placeholder="Full Name"
+                  {...register("name", { required: true })}
+                />
+              </div>
+              <div className="flex flex-col items-start">
+                <label>
+                  {errors.email && (
+                    <p className="p-1 text-[13px] font-light text-red-600">
+                      This field is required
+                    </p>
+                  )}
+                </label>
+                <input
+                  type="text"
+                  autoComplete="none"
+                  className="rounded-md w-full lg:w-[400px] focus:outline-none text-black p-2 mb-10"
+                  placeholder="Email or Contact Info"
+                  {...register("email", { required: true })}
+                />
+              </div>
+              <div className="flex flex-col items-start">
+                <label>
+                  {errors.message && (
+                    <p className="p-1 text-[13px] font-light text-red-600">
+                      This field is required
+                    </p>
+                  )}
+                </label>
+                <textarea
+                  style={{ resize: "none" }}
+                  className="rounded-md w-full lg:w-[400px] h-[400px] focus:outline-none text-black p-2 mb-10"
+                  placeholder="Message"
+                  {...register("message", { required: true })}
+                />
+              </div>
+              <button
+                className={`p-2 bg-transparent border border-indigo-500 hover:bg-indigo-500 rounded-md w-[70%] text-lg self-center ${
+                  contactLoading && "pl-[30%]"
+                }`}
+              >
+                {contactLoading ? <Spinner /> : "Send"}
+              </button>
+            </form>
+          </Slide>
         </div>
         <button
           className="group shadow w-12 h-12 md:w-14 md:h-14 border border-indigo-500 rounded-full bg-transparent md:hover:bg-indigo-500 hover:scale-110 transition-all duration-100 hidden fixed bottom-[10px] right-[15px] md:bottom-[20px] md:right-[30px] z-10 p-[8px] md:p-[15px]"
